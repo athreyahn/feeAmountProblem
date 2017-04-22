@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	$('#nationality').hide();
+	$('#courses').hide();
+	$('#level').hide();
+
+	$('#fee').on('change',function(){
+		
+		$('#nationality').show();
+        	
+		if($('#fee').val()=='application'){
+			$('#nationality').children('option[value="nri"]').hide();
+			$('#nationality').children('option[value="src"]').hide();
+		}
+		
+		if($('#fee').val()=='exam')
+			$('#nationality').children('option').show();
+    	});
+
+	$('#nationality').on('change',function(){
+		$('#courses').show();			
+	});
+
+	$('#courses').on('change',function(){
+		$('#level').show();
+        	
+		if($('#fee').val()=='application'){
+			$('#level').children('option[value="phd"]').hide();
+		}
+		if($('#fee').val()=='exam'){
+			$('#level').children('option[value="phd"]').show();
+		}		
+	});
+
+	$('#level').on('change',function(){
+		if($('#fee').val()=='exam'){
+			if($('#nationality').val()=='ind')
+				$('#amt').text('amount: 400');
+			if($('#nationality').val()=='for')						
+				$('#amt').text('amount: 100');
+			if($('#nationality').val()=='nri')
+				$('#amt').text('amount: 600');
+			if($('#nationality').val()=='src')
+				$('#amt').text('amount: 600');
+		}
+		if($('#fee').val()=='application'){
+			if($('#nationality').val()=='ind'){
+				if($('#level').val()=='ug')
+					$('#amt').text('amount: 200');
+				if($('#level').val()=='dip')
+					$('#amt').text('amount: 300');
+				if($('#level').val()=='pg')
+					$('#amt').text('amount: 500');
+			}
+			if($('#nationality').val()=='for'){
+				if($('#level').val()=='ug')
+					$('#amt').text('amount: 400');
+				if($('#level').val()=='dip')
+					$('#amt').text('amount: 400');
+				if($('#level').val()=='pg')
+					$('#amt').text('amount: 700');
+			}
+		}
+
+	});
+});
+</script>
+</head>
+<body>
+<select id= "fee">
+<option value="" disabled selected hidden>-select-</option>
+<option value="exam">Exam fee</option>
+<option value="application">Application fee</option>
+</select>
+<br/><br/>
+<select id= "nationality">
+<option value="" disabled selected hidden>-select-</option>
+<option value="ind">Indian</option>
+<option value="for">Foreigner</option>
+<option value="nri">NRI</option>
+<option value="src">SAARC</option>
+</select>
+<br/><br/>
+<select id= "courses">
+<option value="" disabled selected hidden>-select-</option>
+<option value="med">Medical</option>
+<option value="dtl">Dental</option>
+<option value="ayr">Ayurveda</option>
+</select>
+<br/><br/>
+<select id= "level">
+<option value="" disabled selected hidden>-select-</option>
+<option value="ug">UG</option>
+<option value="dip">UG-Diploma</option>
+<option value="pg">PG</option>
+<option value="phd">P.hD</option>
+</select>
+<br/><br/>
+<p id = "amt"></p>
+</body>
+</html>
