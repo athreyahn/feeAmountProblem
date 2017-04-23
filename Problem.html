@@ -4,100 +4,89 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-	$('#nationality').hide();
-	$('#courses').hide();
-	$('#level').hide();
 
+	$('#nat').hide();
+	$('#crs').hide();
+	$('#lvl').hide();
+	var json = $.parseJSON('{"Exam Fee" :{"INDIAN" :{"ALL_COURSES" :{"ALL_LEVEL" :{"amount" : 400}}},"FOREIGN" :{"ALL_COURSES" :{"ALL_LEVEL" :{"amount" : 100}}},"NRI" :{"ALL_COURSES" :{"ALL_LEVEL" :{"amount" : 600}}},"SAARC" :{"ALL_COURSES" :{"ALL_LEVEL" :{"amount" : 600}}}},"Application Fee" :{"INDIAN" :{"ALL_COURSES" :{"UG" :{"amount" : 200},"UGDIPLOMA":{"amount" : 300},"PG" :{"amount" : 500}}},"FOREIGN" :{"ALL_COURSES" :{"UG" :{"amount" : 400},"UGDIPLOMA":{"amount" : 400},"PG" :{"amount" : 700}}}}}');
+	var all_courses = ['Medical','Dental','Ayurveda'];
+	var all_levels = ['UG','UG-DIPLOMA','PG','P.hD'];
+
+	$.each(json,function(fee,nat){
+		$('#fee').append($('<option>').text(fee).attr('value',fee));
+	});
+	
 	$('#fee').on('change',function(){
 		
-		$('#nationality').show();
-        	
-		if($('#fee').val()=='application'){
-			$('#nationality').children('option[value="nri"]').hide();
-			$('#nationality').children('option[value="src"]').hide();
-		}
+		$('#nat').show();
+
+		json = json[$('#fee').val()];
+
+		$.each(json,function(nat,crs){
+			$('#nat').append($('<option>').text(nat).attr('value',nat));
+		});	
+	});
+	$('#nat').on('change',function(){
+
+		$('#crs').show();
+
+		json = json[$('#nat').val()];
+
+		if(json['ALL_COURSES'])
+			$.each(all_courses,function(i, crs){
+				$('#crs').append($('<option>').text(crs).attr('value',crs));
+			});
+		else
+			$.each(json,function(crs, lvl){
+				$('#crs').append($('<option>').text(crs).attr('value',crs));
+			});
+	});
+	$('#crs').on('change',function(){
+
+		$('#lvl').show();
+
+		if(json[$('#crs').val()])
+			json = json[$('#crs').val()];
+
+		else
+			json = json['ALL_COURSES'];
+				
+		if(json['ALL_LEVEL'])
+			$.each(all_levels,function(i, lvl){
+				$('#lvl').append($('<option>').text(lvl).attr('value',lvl));
+			});
+		else
+			$.each(json,function(lvl, amt){
+				$('#lvl').append($('<option>').text(lvl).attr('value',lvl));
+			});
 		
-		if($('#fee').val()=='exam')
-			$('#nationality').children('option').show();
-    	});
-
-	$('#nationality').on('change',function(){
-		$('#courses').show();			
 	});
+	$('#lvl').on('change',function(){
 
-	$('#courses').on('change',function(){
-		$('#level').show();
-        	
-		if($('#fee').val()=='application'){
-			$('#level').children('option[value="phd"]').hide();
-		}
-		if($('#fee').val()=='exam'){
-			$('#level').children('option[value="phd"]').show();
-		}		
+		if(json[$('#lvl').val()])
+			json = json[$('#lvl').val()];
+
+		else
+			json = json['ALL_LEVEL'];
+
+		$('#amt').text(json.amount);
+				
 	});
-
-	$('#level').on('change',function(){
-		if($('#fee').val()=='exam'){
-			if($('#nationality').val()=='ind')
-				$('#amt').text('amount: 400');
-			if($('#nationality').val()=='for')						
-				$('#amt').text('amount: 100');
-			if($('#nationality').val()=='nri')
-				$('#amt').text('amount: 600');
-			if($('#nationality').val()=='src')
-				$('#amt').text('amount: 600');
-		}
-		if($('#fee').val()=='application'){
-			if($('#nationality').val()=='ind'){
-				if($('#level').val()=='ug')
-					$('#amt').text('amount: 200');
-				if($('#level').val()=='dip')
-					$('#amt').text('amount: 300');
-				if($('#level').val()=='pg')
-					$('#amt').text('amount: 500');
-			}
-			if($('#nationality').val()=='for'){
-				if($('#level').val()=='ug')
-					$('#amt').text('amount: 400');
-				if($('#level').val()=='dip')
-					$('#amt').text('amount: 400');
-				if($('#level').val()=='pg')
-					$('#amt').text('amount: 700');
-			}
-		}
-
-	});
+			
 });
 </script>
 </head>
 <body>
-<select id= "fee">
-<option value="" disabled selected hidden>-select-</option>
-<option value="exam">Exam fee</option>
-<option value="application">Application fee</option>
+<select id = "fee"><option value="" disabled selected hidden>-select-</option>
 </select>
 <br/><br/>
-<select id= "nationality">
-<option value="" disabled selected hidden>-select-</option>
-<option value="ind">Indian</option>
-<option value="for">Foreigner</option>
-<option value="nri">NRI</option>
-<option value="src">SAARC</option>
+<select id = "nat"><option value="" disabled selected hidden>-select-</option>
 </select>
 <br/><br/>
-<select id= "courses">
-<option value="" disabled selected hidden>-select-</option>
-<option value="med">Medical</option>
-<option value="dtl">Dental</option>
-<option value="ayr">Ayurveda</option>
+<select id = "crs"><option value="" disabled selected hidden>-select-</option>
 </select>
 <br/><br/>
-<select id= "level">
-<option value="" disabled selected hidden>-select-</option>
-<option value="ug">UG</option>
-<option value="dip">UG-Diploma</option>
-<option value="pg">PG</option>
-<option value="phd">P.hD</option>
+<select id = "lvl"><option value="" disabled selected hidden>-select-</option>
 </select>
 <br/><br/>
 <p id = "amt"></p>
