@@ -8,9 +8,9 @@ $(document).ready(function(){
 	$('#nat').hide();
 	$('#crs').hide();
 	$('#lvl').hide();
-	var json = $.parseJSON('{"Exam Fee" :{"INDIAN" :{"ALL_COURSES" :{"ALL_LEVEL" :{"amount" : 400}}},"FOREIGN" :{"ALL_COURSES" :{"ALL_LEVEL" :{"amount" : 100}}},"NRI" :{"ALL_COURSES" :{"ALL_LEVEL" :{"amount" : 600}}},"SAARC" :{"ALL_COURSES" :{"ALL_LEVEL" :{"amount" : 600}}}},"Application Fee" :{"INDIAN" :{"ALL_COURSES" :{"UG" :{"amount" : 200},"UGDIPLOMA":{"amount" : 300},"PG" :{"amount" : 500}}},"FOREIGN" :{"ALL_COURSES" :{"UG" :{"amount" : 400},"UGDIPLOMA":{"amount" : 400},"PG" :{"amount" : 700}}}}}');
+	var json = $.parseJSON('{"Exam Fee" :{"INDIAN" :{"ALL_COURSES" :{"ALL_LEVEL" :{"amount" : 400}}},"FOREIGN" :{"ALL_COURSES" :{"ALL_LEVEL" :{"amount" : 100}}},"NRI" :{"ALL_COURSES" :{"ALL_LEVEL" :{"amount" : 600}}},"SAARC" :{"ALL_COURSES" :{"ALL_LEVEL" :{"amount" : 600}}}},"Application Fee" :{"INDIAN" :{"ALL_COURSES" :{"Double Degree": {"amount" : 450}, "UG": {"amount" : 200},"UGDIPLOMA":{"amount" : 300},"PG" :{"amount" : 500}}},"FOREIGN" :{"ALL_COURSES" :{"UG" :{"amount" : 400}, "Double Degree": {"amount": 670}, "UGDIPLOMA":{"amount" : 400},"PG" :{"amount" : 700}}}}}');
 	var all_courses = ['Medical','Dental','Ayurveda'];
-	var all_levels = ['UG','UG-DIPLOMA','PG','P.hD'];
+	var all_levels = ['UG','UG-DIPLOMA','PG','P.hD', 'Double Degree'];
 
 	$.each(json,function(fee,nat){
 		$('#fee').append($('<option>').text(fee).attr('value',fee));
